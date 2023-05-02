@@ -1121,9 +1121,9 @@ editdropdownfrontend:any=[];
           this.Dataset=this.linkagedata.datasets;
           this.Frontend=this.linkagedata.frontends;
 
-  //  if(this.Solution.length==1){
-  //   this.updateArrows(data);
-  // }
+        if(this.Solution.length==1){
+          this.updateArrows(data);
+        }
       }
     )
   }
@@ -1131,8 +1131,8 @@ editdropdownfrontend:any=[];
   createArrow(from, to, yOffset,position) {
     debugger
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '159%', y: '420%' }),
-      LeaderLine.pointAnchor(to, { x: '69%', y: position+'%' }),
+      LeaderLine.pointAnchor(from, { x: '100%', y: yOffset+'%' }),
+      LeaderLine.pointAnchor(to, { x: '1%', y: position+'%' }),
       {
         color: 'black',
         size: 2,
@@ -1149,12 +1149,12 @@ editdropdownfrontend:any=[];
     );
   }
  
-  createArrow1(from, to, yOffset,position) {
+  createArrow1(from, to, yOffset,position,position1) {
     debugger
    
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '333%', y: position+'%' }),
-      LeaderLine.pointAnchor(to, { x: yOffset+'%', y: position+'%' }),  
+      LeaderLine.pointAnchor(from, { x: '214%', y: position1+'%' }),
+      LeaderLine.pointAnchor(to, { x: yOffset+'%', y: position1+'%' }),  
       {
         color: 'black',
         size: 2,
@@ -1163,7 +1163,7 @@ editdropdownfrontend:any=[];
         startPlug: 'disc',
         endPlug: 'disc',
         endPlugSize: 1.5,
-        path: 'grid',
+        path: 'fluid',
         dash: { animation: true },
         end:137
         
@@ -1174,8 +1174,8 @@ editdropdownfrontend:any=[];
   createArrow2(from, to, yOffset,position) {
     debugger
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '507%', y: '275%' }),
-      LeaderLine.pointAnchor(to, { x: position+'%', y: '275%' }),  //427 //606
+      LeaderLine.pointAnchor(from, { x: '332%', y: '50%' }),
+      LeaderLine.pointAnchor(to, { x: position+'%', y: '50%' }),  //427 //606
       {
         color: 'black',
         size: 2,
@@ -1194,8 +1194,8 @@ editdropdownfrontend:any=[];
   createArrow3(from, to, yOffset) {
     debugger
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '680%', y: '275%' }),
-      LeaderLine.pointAnchor(to, { x: '590%', y: '275%' }),
+      LeaderLine.pointAnchor(from, { x: '446%', y: '50%' }),
+      LeaderLine.pointAnchor(to, { x: yOffset+'%', y: '50%' }),
       {
         color: 'black',
         size: 2,
@@ -1204,7 +1204,7 @@ editdropdownfrontend:any=[];
         startPlug: 'disc',
         endPlug: 'disc',
         endPlugSize: 1.5,
-        path: 'grid',
+        path: 'fluid',
         dash: { animation: true },
       }
     );
@@ -1237,9 +1237,9 @@ editdropdownfrontend:any=[];
       for(let i=0;i<this.Frontend.length;i++){
         if(this.Frontend.length<=2){
           if(i==0){
-            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,275); 
+            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),50,50); 
           } else{
-            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,275); 
+            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),50,50); 
           }
               
         }else{
@@ -1282,38 +1282,55 @@ editdropdownfrontend:any=[];
       for(let i=0;i<this.pipeline.length;i++){
         if(this.pipeline.length<=2){
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),242,275);
+            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),115,275,50);
           }else{
-            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),242,275);
+            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),115,275,50);
           } 
         }else{
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
           }else if(i==1){
-            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
           } else{
-            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
           } 
         }       
       }   
     } else if(this.Frontend && this.Modules.length!=0 && !this.arrowLink5){
+      for(let i=0;i<this.Modules.length;i++){
+        if(this.Modules.length<=2){
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),231,275,50);
+          }else{
+            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),231,275,50);
+          }  
+        }else{
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+          }else if(i==1){
+            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+          } else{
+            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+          }  
+        }       
+      }    
 
     }
     else if(this.Frontend.length!=0 && this.Dataset.length!=0 && !this.arrowLink5){
       for(let i=0;i<this.Dataset.length;i++){
         if(this.Dataset.length<=2){
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),590,275);
+            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346,275,50);
           }else{
-            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),590,275);
+            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346,275,50);
           }  
         }else{
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
           }else if(i==1){
-            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
           } else{
-            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
           }  
         }       
       }    
@@ -1340,9 +1357,9 @@ editdropdownfrontend:any=[];
       for(let i=0;i<this.Modules.length;i++){
         if(this.Modules.length<=2){
           if(i==0){
-            this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+            this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,232);
           }else{
-            this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+            this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,232);
           }  
         }else{
           if(i==0){
@@ -1403,9 +1420,9 @@ editdropdownfrontend:any=[];
       for(let i=0;i<this.Dataset.length;i++){
         if(this.Dataset.length<=2){
           if(i==0){
-            this.arrowLink11 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+            this.arrowLink11 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346);
           }else{
-            this.arrowLink12 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+            this.arrowLink12 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346);
           }  
         }else{
           if(i==0){
