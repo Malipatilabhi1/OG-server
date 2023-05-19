@@ -1,7 +1,13 @@
 
-    
+// :host ::ng-deep * {
+//   all: unset !important;
+// }  
    
-// table td{
+
+
+
+
+// table td{              
 //     position: relative;
 // }
 // table td:before,
@@ -22,7 +28,7 @@
 //     margin-right: 10px;
 //   }
   
-  .controls {
+.controls {
     position: absolute;
     top: 10px;
     left: 60%;
@@ -63,17 +69,13 @@
     font-weight:bolder;
   }
 //   table{
-//     width: 300px !important;
+//     width: 20vw !important;
 //   }
-
-//   .input-group{
-    // width: 300px !important;
-//   }
-
-//   mat-expansion-panel{
+  mat-expansion-panel{
     // border: solid 1px;
-    // width: 315px !important;  
-// }
+    // width: 300px !important;  
+    position:static;
+}
 mat-expansion-panel-header{
     height: 52px !important;
 }
@@ -84,14 +86,14 @@ mat-expansion-panel-header{
     background-color: #FFFFFF;
     margin:8px;
     width: auto !important;
-    height: 850px;
+    height: 900px;
     position: relative;
+    overflow-y: auto;
 }
 .ex3 {
     // background-color: lightblue;
     position: relative;
-    // overflow-y: auto;
-    overflow-y: auto;
+    // overflow-y: auto;  
     height: 850px;  
   }
   .solution_run_btn{
@@ -215,7 +217,6 @@ mat-tab{
     max-width: 500px;
     width: 100%;
   }
-
 .ss{
     background-color: transparent;
     border: solid white 2px;
@@ -285,11 +286,11 @@ label{
      height: 100%;
      opacity: 0.3;
       background-color: black;
-}
+     }
 
 .not-empty-select.mat-selected {
     color: rgb(21, 21, 69) !important;
-}
+  }
   
  mat-lable{
     color: white;
@@ -308,12 +309,22 @@ label{
 
 .example-box.cdk-drag-animating {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    
   }
   
   .example-chip .cdk-drop-list-dragging {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
-
+  .chip-container {
+    display: flex;
+  }
+.example-chip{
+  display: flex;
+  flex-wrap: nowrap;
+}
+.example-box {
+  margin-right: 10px; /* Optional: Add spacing between chips */
+}
 
 
 #frontendJar{
