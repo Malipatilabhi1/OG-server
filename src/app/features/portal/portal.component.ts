@@ -59,6 +59,8 @@ export class PortalComponent implements OnInit {
   ishidden: boolean = false;
   selectedIndex: number = 0;
   filled: boolean = false;
+  selected:boolean=false;
+
   tags:tags[]=[{name:'tag1'},{name:'tag2'}];
   drop(event: CdkDragDrop<tags[]>) {
     moveItemInArray(this.tags, event.previousIndex, event.currentIndex);
@@ -266,7 +268,8 @@ export class PortalComponent implements OnInit {
 
   refresh(){
     debugger
-    this.updateArrows('remove')
+    // this.updateArrows('remove')
+    
     // if(this.arrowLink2!=null){
     //   this.arrowLink2.remove();
     //   this.arrowLink2=null;
@@ -279,7 +282,7 @@ export class PortalComponent implements OnInit {
     this.getFrontend();
     this.linkCheck();
     this.isPanelOpen=false;
-    
+    this.selected=false;
     
   }
   
@@ -864,7 +867,8 @@ deleteFrontend(){
     let solutionName = this.formdata3.controls['solution_name'].value;
     let solutionViewUrl = this.formdata3.controls['view_url'].value;
     let solutionRunUrl= this.formdata3.controls['run_url'].value;
-    let solutionTags = this.formdata3.controls['solution_tags'].value;
+    let soltag=this.formdata3.controls['solution_tags'].value;
+    let solutionTags = soltag.toUpperCase();
     let solutionDescription = this.formdata3.controls['solution_description'].value;
     let modelId=this.dropdownmodel;
     let datasetId=this.dropdowndata;
@@ -886,7 +890,8 @@ deleteFrontend(){
     let solutionId = this.formdata7.controls['solution_id'].value.toString();
     let solutionRunUrl=this.formdata7.controls['run_url'].value;
     let solutionViewUrl=this.formdata7.controls['view_url'].value;
-    let solutionTags = this.formdata7.controls['solution_tags'].value;
+    let soltag=this.formdata7.controls['solution_tags'].value;
+    let solutionTags = soltag.toUpperCase();
     let solutionDescription = this.formdata7.controls['solution_description'].value;
     let solutionVersion = this.formdata7.controls['solution_version'].value;
     let modelId=this.editdropdownmodel;
@@ -1191,6 +1196,7 @@ editdropdownfrontend:any=[];
       this.empty();  
       console.log(this.linkagedata);
       this.linkCheck();
+      this.selected=true;
           this.Solution=this.linkagedata.solutions;
           this.isPanelOpen=true;
           this.Modules=this.linkagedata.models;
@@ -1198,9 +1204,9 @@ editdropdownfrontend:any=[];
           this.Dataset=this.linkagedata.datasets;
           this.Frontend=this.linkagedata.frontends;
 
-        if(this.Solution.length==1){
-          this.updateArrows(data);
-        }
+        // if(this.Solution.length==1){
+        //   this.updateArrows(data);
+        // }
       }
     )
   }
