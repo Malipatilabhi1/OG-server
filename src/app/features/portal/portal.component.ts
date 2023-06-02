@@ -25,7 +25,9 @@ declare var LeaderLine: any;
 })
 export class PortalComponent implements OnInit {  
  
-  readonly ICONS = ICONS;
+  // @ViewChild('panel1', { static: true }) panel1: ElementRef;
+
+  // readonly ICONS = ICONS;
   isPanelOpen = false;
   dataSetId: any;
   abc: any;
@@ -60,11 +62,10 @@ export class PortalComponent implements OnInit {
   selectedIndex: number = 0;
   filled: boolean = false;
   selected:boolean=false;
-
-  tags:tags[]=[{name:'tag1'},{name:'tag2'}];
-  drop(event: CdkDragDrop<tags[]>) {
-    moveItemInArray(this.tags, event.previousIndex, event.currentIndex);
-  }
+  // tags:tags[]=[{name:'tag1'},{name:'tag2'}];
+  // drop(event: CdkDragDrop<tags[]>) {
+  //   moveItemInArray(this.tags, event.previousIndex, event.currentIndex);
+  // }
 
   innerHeight: any;
     innerWidth: any;
@@ -75,100 +76,96 @@ export class PortalComponent implements OnInit {
     private http: HttpClient,
     public snackBar: MatSnackBar,
     private toastr: ToastrService,
+
     private cartService:CartService) { 
     this.innerHeight = (window.screen.height) + "px";
-        this.innerWidth = (window.screen.width) + "px";
-        console.log(this.innerHeight);
-        console.log(this.innerWidth);
+    this.innerWidth = (window.screen.width) + "px";
+    console.log(this.innerHeight);
+    console.log(this.innerWidth);
   }
   
   ngOnInit(): void {
     // this.fetchData();
     this.getModel();
-    this.getSolution();
+    
     this.getdataset();
     this.getPipeline();
     this.getFrontend();
-
-
-    //--------------------------------------------------------------------------------------------------------------------------------
-
-    // window.onload = () => {
-    //   const table1 = document.getElementById("table1");
-    //   const table2 = document.getElementById("table2");
-    //   const table3 = document.getElementById("table3");
-    //   const table4 = document.getElementById("table4");
-    //   const table5 = document.getElementById("table5");
-    //   const element2 = document.getElementById("element2") as HTMLInputElement;
-      
-    //   function createArrow(from, to, yOffset) {
-    //     return new LeaderLine(
-    //       LeaderLine.pointAnchor(from, { x: '120%', y: `calc(50% + ${yOffset}px)` }),
-    //       LeaderLine.pointAnchor(to, { x: 0, y: `calc(50% + ${yOffset}px)` }),
-    //       {
-    //         color: 'black',
-    //         size: 2,
-    //         startSocket: 'right',
-    //         endSocket: 'left',
-    //         startPlug: 'behind',
-    //         endPlug: 'arrow2',
-    //         endPlugSize: 1.5,
-    //         path: 'fluid',
-    //         dash: { animation: true },
-    //       }
-    //     );
-    //   }
-
-    //   const rows1 = table1.querySelectorAll("tr");
-    //   const rows2 = table2.querySelectorAll("tr");
-    //   const rows3 = table3.querySelectorAll("tr");
-    //   const rows4 = table4.querySelectorAll("tr");
-    //   const rows5 = table5.querySelectorAll("div");
-
+    this.getSolution();
     
-    //   let arrowLink2;
-    //   let arrowLink3;
-    //   let arrowLink4;
-    //   let arrowLink5;
-    //   let arrowLink6;
 
-    //   const updateArrows = () => {
-    //     if (element2.checked && !arrowLink2) {
-    //       arrowLink2 = createArrow(rows1[2].querySelector("td"), rows2[2].querySelector("td"), 5);
-    //     } else if (!element2.checked && arrowLink2) {
-    //       arrowLink2.remove();
-    //       arrowLink2 = null;
-    //     }
-    //     if (element2.checked && !arrowLink4) {
-    //       arrowLink4 = createArrow(rows2[0].querySelector("td"), rows3[1].querySelector("td"), 5);
-    //     } else if (!element2.checked && arrowLink4) {
-    //       arrowLink4.remove();
-    //       arrowLink4 = null;
-    //     }
-    //     if (element2.checked && !arrowLink5) {
-    //       arrowLink5 = createArrow(rows3[0].querySelector("td"), rows4[1].querySelector("td"), 5);
-    //     } else if (!element2.checked && arrowLink6) {
-    //       arrowLink5.remove();
-    //       arrowLink5 = null;
-    //     }
-    //     if (element2.checked && !arrowLink6) {
-    //       arrowLink6 = createArrow(rows4[0].querySelector("td"), rows5[0].querySelector("mat-expansion-panel"), 5);
-    //       // arrowLink3 = createArrow(rows3[0].querySelector("td"), rows4[1].querySelector("td"), 5);
-    //     } else if (!element2.checked && arrowLink6 && arrowLink3) {
-    //       arrowLink6.remove();
-    //       arrowLink3.remove();
-    //       arrowLink6 = null;
-    //       // arrowLink3 = null;
-    //     }
-    //   }
+   this.isPanelOpen;
+  //  this.callCarddata();
+  //  this.callCardpipeline();
+ //--------------------------------------------------------------------------------------------------------------------------------
 
-    //   element2.addEventListener("change", updateArrows);
-     
-    // };
-
-    
-        //--------------------------------------------------------------------------------------------------------------------------------
+ 
   }
+
+sectionData(){
+    this.groupedData = {};
+    this.Modules.forEach((item) => {
+    const section = item.modelTags.toUpperCase();
+      if (!this.groupedData[section]) {
+      this.groupedData[section] = [];
+    }
+    this.groupedData[section].push(item);
+  });
+    this.sections = Object.keys(this.groupedData);
+}
+
+  groupedData:any;
+  sections:any=[];
+  Test_model:any=[
+    {id:1,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
+    {id:2,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
+    {id:3,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
+    {id:4,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
+    {id:5,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"} ,
+    {id:6,modelDescription:"Model test desc",modelName:"Model Test Finance",domain:"Finance"}  
+  ]
+
+  idx:any;
+  onPanelOpened(data:any,state:any) {
+    debugger
+    if(state=='opened'){
+      this.panelOpenState=true;
+    }else{
+      this.panelOpenState=false;
+    }
+   
+    if(this.link){
+      if(data.frontendName){
+        this.idx=this.Frontend.indexOf(data);
+      }else if(data.pipelineName){
+        this.idx=this.pipeline.indexOf(data);
+      }else if(data.modelName){
+        this.idx=this.Modules.indexOf(data);
+      }else if(data.datasetName){
+        this.idx=this.Dataset.indexOf(data);
+      }
+      
+      this.updateArrows(data);
+    }
+  }
+
+  // callCarddata(){
+  //   this.http.get("http://3.111.229.37:3000/clearml/dataset").subscribe(response => { 
+    
+  //   })
+  // }
+  callCardpipeline(){
+    // this.http.get("http://3.111.229.37:3000/clearml/pipeline").subscribe(response => { 
+    
+    // })
+  }
+
+
+
+
+
+
+
   arrowLink2:any;
   arrowLink3:any;
   arrowLink4:any;
@@ -187,23 +184,21 @@ export class PortalComponent implements OnInit {
   rows3:any;
   rows4:any;
   rows5:any;
-
   searchResponse:any;
   filterSolution() {
+    
     let search = this.Searchvalue4;
     let table =  "Solutions"; 
     let col1=  "solutionName";
     let col2 = "solutionTags";
     this.http.post('http://3.111.229.37:3000/search', { search, table, col1, col2})
-      .subscribe(response => {  
+      .subscribe(response => { 
+        debugger 
         this.searchResponse=response;
         this.Solution = this.searchResponse.data;
         console.log("search Response",this.searchResponse.data)
       }
       )
-     
-    
-  
   }
 
   filterFrontend() {
@@ -217,9 +212,6 @@ export class PortalComponent implements OnInit {
         console.log("search Response",this.searchResponse.data)
       }
       )
-     
-    
-  
   }
 
   filterPipeline() {
@@ -270,11 +262,6 @@ export class PortalComponent implements OnInit {
     debugger
     // this.updateArrows('remove')
     
-    // if(this.arrowLink2!=null){
-    //   this.arrowLink2.remove();
-    //   this.arrowLink2=null;
-    // }
-    
     this.getModel();
     this.getSolution();
     this.getdataset();
@@ -283,7 +270,6 @@ export class PortalComponent implements OnInit {
     this.linkCheck();
     this.isPanelOpen=false;
     this.selected=false;
-    
   }
   
   dropdownSettings = {
@@ -433,6 +419,15 @@ export class PortalComponent implements OnInit {
     desc: [,Validators.required],
     url: [,Validators.required]
   })
+  formdata4 = this.formBuilder.group({
+    name: [],
+    version: [],
+    desc: [],
+    id: [],
+    url:[],
+    main_id:[],
+   
+  })
   formdata1 = this.formBuilder.group({
     dataset_name: ['', Validators.required],
     dataset_project: ['', Validators.required],
@@ -447,23 +442,6 @@ export class PortalComponent implements OnInit {
     model_tags:['', Validators.required],
     desc:['', Validators.required],
   })
-  formdata3 = this.formBuilder.group({
-    solution_name: ['', Validators.required],
-    view_url: ['', Validators.required],
-    solution_tags: ['', Validators.required],
-    solution_description: ['', Validators.required],
-    run_url:['', Validators.required]
-  })
-  formdata4 = this.formBuilder.group({
-    name: [],
-    version: [],
-    desc: [],
-    id: [],
-    url:[],
-    main_id:[],
-   
-  })
- 
   formdata6 = this.formBuilder.group({
     project_name: [],
     id: [],
@@ -472,6 +450,18 @@ export class PortalComponent implements OnInit {
     run_url:[],
     modelTags:[]
   })
+
+
+  formdata3 = this.formBuilder.group({
+    solution_name: ['', Validators.required],
+    view_url: ['', Validators.required],
+    solution_tags: ['', Validators.required],
+    solution_description: ['', Validators.required],
+    run_url:['', Validators.required]
+  })
+  
+ 
+  
   formdata7 = this.formBuilder.group({
     solution_name: [],
     solution_description: [],
@@ -511,11 +501,15 @@ export class PortalComponent implements OnInit {
     let modelDescription = this.formdata2.controls['desc'].value;
     this.http.post('http://3.111.229.37:3000/model/insertModel', { modelName, modelViewUrl, modelRunUrl, modelTags, modelDescription })
       .subscribe(response => {
+        this.formdata2.reset();
         console.log(response);
         this.storeResponse = response;
         this.toastr.success(this.storeResponse.message);
         // alert(this.storeResponse.message)
         this.getModel();
+      },err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
       }
       )
   }
@@ -562,6 +556,7 @@ export class PortalComponent implements OnInit {
         this.dumbb = response;
         this.Modules = this.dumbb.data;
         console.log(this.Modules);
+        this.sectionData();
       }
       )
   }
@@ -575,11 +570,16 @@ export class PortalComponent implements OnInit {
     let datasetUrl = this.formdata.controls['url'].value;
     this.http.post('http://3.111.229.37:3000/data/insertData', {datasetUrl, datasetName, datasetId, datasetVersion, datasetDescription })
       .subscribe(response => {
+        debugger
+        this.formdata.reset();
         console.log(response)
         this.storeResponse = response;
         this.toastr.success(this.storeResponse.message);
         // alert(this.storeResponse.message);
         this.getdataset();
+      },err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
       }
       );
   }
@@ -624,6 +624,7 @@ export class PortalComponent implements OnInit {
   getdataset() {
     this.http.post('http://3.111.229.37:3000/data/retrieveDatasets', {})
       .subscribe(response => {
+        debugger
         this.dumbb1 = response;
         this.Dataset = this.dumbb1.data;
         console.log("abc", this.Dataset);
@@ -640,11 +641,15 @@ export class PortalComponent implements OnInit {
     
     this.http.post('http://3.111.229.37:3000/pipeline/insertPipeline', {pipelineName,pipelineViewUrl,pipelineTags,pipelineDescription })
       .subscribe(response => {
+        this.formdata8.reset();
         console.log(response)
         this.storeResponse = response;
         this.toastr.success(this.storeResponse.message);
         // alert(this.storeResponse.message);
         this.getPipeline();
+      },err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
       }
       );
   }
@@ -701,16 +706,21 @@ export class PortalComponent implements OnInit {
     let frontendRunUrl=this.formdata9.controls['frontendRun_url'].value;
     let frontendDescription=this.formdata9.controls['frontend_description'].value;
 
-    this.http.post('http://3.111.229.37:3000/frontend/insertFrontend', {frontendName,
+    this.http.post('http://3.111.229.37:3000/frontend/insertFrontend', {
+      frontendName,
     frontendStylesUrl,
     frontendRunUrl,
     frontendDescription })
       .subscribe(response => {
+        this.formdata9.reset();
         console.log(response)
         this.storeResponse = response;
         this.toastr.success(this.storeResponse.message);
         // alert();
         this.getFrontend();
+      },err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
       }
       );
   }
@@ -755,8 +765,7 @@ deleteFrontend(){
         this.toastr.error(this.storeResponse.message);
         // alert(this.storeResponse.message)
         this.getFrontend();
-      }
-      )
+      })
 }
   //------------------------------unknow-------------------------------
   getData(data: any) {
@@ -874,14 +883,21 @@ deleteFrontend(){
     let datasetId=this.dropdowndata;
     let pipelineId=this.dropdownpipeline;
     let frontendId=this.dropdownfrontend;
-    debugger
+      debugger
     this.http.post('http://3.111.229.37:3000/solution/insertSolution', { solutionName, solutionViewUrl, solutionTags, solutionDescription, solutionRunUrl,modelId,datasetId,pipelineId,frontendId })
       .subscribe(response => {
+        debugger
         console.log(response);
+        
         this.storeResponse = response;
+        // console.log(this.storeResponse.error.message);
         this.toastr.success(this.storeResponse.message);
         this.getSolution();
-      });
+      },err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+      }
+      );
   }
  
   editSolution() {
@@ -935,12 +951,15 @@ debugger
   linkedassets:any=[];
   linkedassets1:any=[];
 
+  valuesArray: any[] = [];
+  TagsArray: any[] = [];
   getSolution() {
     this.http.post('http://3.111.229.37:3000/solution/retrieveSolutions', {})
       .subscribe(response => {
         this.dumbb1 = response;
         debugger
         this.Solution = this.dumbb1.solutionData;
+      
        console.log("Solution",this.Solution);
      
        for(let i=0; i<this.Solution.length; i++)
@@ -1007,12 +1026,12 @@ debugger
   
   
   
-  copytext() {
-    navigator.clipboard.writeText(this.value1);
-  }
-  copytext1() {
-    navigator.clipboard.writeText(this.value2);
-  }
+  // copytext() {
+  //   navigator.clipboard.writeText(this.value1);
+  // }
+  // copytext1() {
+  //   navigator.clipboard.writeText(this.value2);
+  // }
   ds: boolean = false;
   mdl: boolean = false;
   sln: boolean = false;
@@ -1045,12 +1064,14 @@ debugger
       this.sln = false;
       this.ppln= true;
       this.fend=false;
+      this.formdata8.reset();
     }else if(jar == 'Frontend'){
       this.ds = false;
       this.mdl = false;
       this.sln = false;
       this.ppln= false;
       this.fend= true;
+      this.formdata9.reset();
     }
   }
 
@@ -1075,90 +1096,109 @@ debugger
     }
   }
   
-  value1: any = 'Enter all API_Data to generate the Script';
-  new_dataset_name: any = '';
-  dataset_id: any = '';
-  new_dataset_project_name: any = '';
-  DownloadData() {
-    if (this.selectedIndex != 3) {
-      this.selectedIndex = this.selectedIndex + 1;
-    }
-    console.log(this.selectedIndex);
-    this.new_dataset_name = this.formdata1.controls['dataset_name'].value;
-    this.dataset_id = this.formdata1.controls['dataset_id'].value;
-    this.new_dataset_project_name = this.formdata1.controls['dataset_project'].value;
-    this.value1 = `
-from clearml import Dataset
-#Get the dataset using Dataset Id
-dataset = Dataset.get("${this.dataset_id}")
-#Get the physical location of the dataset
-url = dataset._task.artifacts['data'].url
-# Create a dataset with ClearML\`s Dataset class
-new_dataset = Dataset.create(dataset_name="${this.new_dataset_name}",
-                  dataset_project="${this.new_dataset_project_name}") 
-#Add the example url                 
-new_dataset.add_external_files(source_url=url)
-# Upload dataset to ClearML server (customizable)
-new_dataset.upload() 
-# commit dataset changes
-new_dataset.finalize()
-  `
-  }
-  setDataValues(data: any) {
-    this.formdata1.controls['dataset_name'].setValue(data.Name);
-    this.formdata1.controls['dataset_id'].setValue(data.Id);
-  }
-  value2: any;
-  Model_Proj: any;
-  model_Id: any;
-  modelcode(data: any) {
-    this.Model_Proj = data.Name;
-    this.model_Id = data.Id;
-    this.value2 =
-      `from clearml import Model, Task, Logger
-import tensorflow as tf
-from tempfile import gettempdir
-import os
-import numpy as np
-import warnings
-warnings.filterwarnings('ignore')
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-project_config = {
-    'PROJECT_NAME' : '${this.Model_Proj}'}
-task = Task.init(
-    project_name=project_config['PROJECT_NAME'],
-    task_name='Model Inference',
-    task_type='inference',
-    reuse_last_task_id=False
-)
-logger = task.get_logger()
-# print(f'Loading model: af7391e2c0784dbf9e83ba3969aee923')
-model = Model('${this.model_Id}')
-print(f'\nGetting a local copy of the model : {model.id}\n') 
-model_path  = model.get_local_copy()
-print(f'model_path= {model_path}')
-#Load the model into keras/tf
-model = tf.keras.models.load_model(model_path)
-print(model.summary())
-#Load data to run inference on mnnist test data
-(x_train,y_train),(x_test,y_test) = tf.keras.datasets.mnist.load_data()
-print(x_train.shape,y_train.shape,x_test.shape,y_test.shape)
-#run inference
-sample = x_test#[:5,:,:]
-for i,img in enumerate(sample):
-    pred = model.predict(np.expand_dims(img, axis=0))
-    pred = np.argmax(pred, axis=1)
-    logger.report_image("image", str(pred), iteration=i, image=img)`
-  }
+  // value1: any = 'Enter all API_Data to generate the Script';
+  // new_dataset_name: any = '';
+  // dataset_id: any = '';
+  // new_dataset_project_name: any = '';
+//   DownloadData() {
+//     if (this.selectedIndex != 3) {
+//       this.selectedIndex = this.selectedIndex + 1;
+//     }
+//     console.log(this.selectedIndex);
+//     this.new_dataset_name = this.formdata1.controls['dataset_name'].value;
+//     this.dataset_id = this.formdata1.controls['dataset_id'].value;
+//     this.new_dataset_project_name = this.formdata1.controls['dataset_project'].value;
+//     this.value1 = `
+// from clearml import Dataset
+// #Get the dataset using Dataset Id
+// dataset = Dataset.get("${this.dataset_id}")
+// #Get the physical location of the dataset
+// url = dataset._task.artifacts['data'].url
+// # Create a dataset with ClearML\`s Dataset class
+// new_dataset = Dataset.create(dataset_name="${this.new_dataset_name}",
+//                   dataset_project="${this.new_dataset_project_name}") 
+// #Add the example url                 
+// new_dataset.add_external_files(source_url=url)
+// # Upload dataset to ClearML server (customizable)
+// new_dataset.upload() 
+// # commit dataset changes
+// new_dataset.finalize()
+//   `
+//   }
+  // setDataValues(data: any) {
+  //   this.formdata1.controls['dataset_name'].setValue(data.Name);
+  //   this.formdata1.controls['dataset_id'].setValue(data.Id);
+  // }
+//   value2: any;
+//   Model_Proj: any;
+//   model_Id: any;
+//   modelcode(data: any) {
+//     this.Model_Proj = data.Name;
+//     this.model_Id = data.Id;
+//     this.value2 =
+//       `from clearml import Model, Task, Logger
+// import tensorflow as tf
+// from tempfile import gettempdir
+// import os
+// import numpy as np
+// import warnings
+// warnings.filterwarnings('ignore')
+// os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+// project_config = {
+//     'PROJECT_NAME' : '${this.Model_Proj}'}
+// task = Task.init(
+//     project_name=project_config['PROJECT_NAME'],
+//     task_name='Model Inference',
+//     task_type='inference',
+//     reuse_last_task_id=False
+// )
+// logger = task.get_logger()
+// # print(f'Loading model: af7391e2c0784dbf9e83ba3969aee923')
+// model = Model('${this.model_Id}')
+// print(f'\nGetting a local copy of the model : {model.id}\n') 
+// model_path  = model.get_local_copy()
+// print(f'model_path= {model_path}')
+// #Load the model into keras/tf
+// model = tf.keras.models.load_model(model_path)
+// print(model.summary())
+// #Load data to run inference on mnnist test data
+// (x_train,y_train),(x_test,y_test) = tf.keras.datasets.mnist.load_data()
+// print(x_train.shape,y_train.shape,x_test.shape,y_test.shape)
+// #run inference
+// sample = x_test#[:5,:,:]
+// for i,img in enumerate(sample):
+//     pred = model.predict(np.expand_dims(img, axis=0))
+//     pred = np.argmax(pred, axis=1)
+//     logger.report_image("image", str(pred), iteration=i, image=img)`
+//   }
   
-  @Output() CartEvent=new EventEmitter();
-  badgeCount:any;
-
+  // @Output() CartEvent=new EventEmitter();
+badgeCount:any;
 cart:any=[];
+dcart:any=[];
+mcart:any=[];
+pcart:any=[];
+fcart:any=[];
+
   addtoCart(data:any){
     debugger
     this.cart.push(data);
+  if(data.hasOwnProperty('modelId')){
+    this.mcart.push(data);
+  }else{
+    this.dcart.push(data);
+  }
     this.badgeCount=this.cart.length;
+  }
+
+  deleteSelected(data:any){
+    if(data=='model'){
+      this.mcart=[];
+    }else if(data=='dataset'){
+      this.dcart=[];
+    }
+    
+    this.badgeCount=this.mcart.length+this.dcart.length;
   }
 
 
@@ -1171,6 +1211,34 @@ editdropdownmodel:any=[];
 editdropdownpipeline:any=[];
 editdropdownfrontend:any=[];
 
+onInputChange(key:string,value:string){
+  if(key=='solution'){
+    const inputControl = this.formdata3.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='frontend'){
+    const inputControl = this.formdata9.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='pipeline'){
+    const inputControl = this.formdata8.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });  
+  }else if(key=='model'){
+    const inputControl = this.formdata2.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='dataset'){
+    const inputControl = this.formdata.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='edit-dataset'){
+    const inputControl = this.formdata4.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='edit-model'){
+    const inputControl = this.formdata6.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }else if(key=='edit-solution'){
+    const inputControl = this.formdata7.get(value);
+    inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
+  }
+  
+}
 
   empty(){
     this.pipeline=[];
@@ -1188,6 +1256,7 @@ editdropdownfrontend:any=[];
   }
 
    linkage(data:any){
+  
     let solutionId=data.id;
     this.http.post('http://3.111.229.37:3000/solution/linked', {solutionId})
     .subscribe(response => {
@@ -1207,16 +1276,62 @@ editdropdownfrontend:any=[];
         // if(this.Solution.length==1){
         //   this.updateArrows(data);
         // }
-      }
-    )
+      })
   }
+
+    fromCenterX:any;
+    fromCenterY :any;
+    toCenterX :any;
+    toCenterY :any;
+    fromCenterX1:any;
+    fromCenterY1 :any;
+    toCenterX1 :any;
+    toCenterY1 :any;
+    // let x=119.5;
+      // let x1=70.5
+      // this.fromCenterX = fromRect.width+x;
+      // this.fromCenterY =  (fromRect.height+position)/2//yOffset;//288
+      // this.toCenterX = toRect.width-x1;
+      // this.toCenterY = (toRect.height+position)/2;//249
 
   createArrow(from, to, yOffset,position) {
     debugger
+    const fromRect = from.getBoundingClientRect();
+    const toRect = to.getBoundingClientRect();
+    
+    if (navigator.platform.includes("Win")) {
+      debugger
+    //  left: rect.left + window.scrollX,
+    // top: rect.top + window.scrollY
+//     var centerX = offset.left + width / 2;
+// var centerY = offset.top + height / 2;
+
+      // this.fromCenterX = fromRect.left ; 
+      //   this.fromCenterY =  fromRect.top+ fromRect.height/2 ;
+      //   this.toCenterX =toRect.right ; 
+      //   this.toCenterY = toRect.top+fromRect.height/2 ;
+
+        this.fromCenterX = fromRect.width; //136
+        this.fromCenterY =  fromRect.height/2;//104.75; 
+        this.toCenterX = 1 ; //1
+        this.toCenterY = toRect.height/2; //54/2=27
+
+    } else if (navigator.platform.includes("Linux")) {
+      // Running on Linux
+      debugger
+        this.fromCenterX = fromRect.width; //136
+        this.fromCenterY =  fromRect.height/2;//104.75; 
+        this.toCenterX = 1 ; //1
+        this.toCenterY = toRect.height/2; //54/2=27
+    }
+
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '100%', y: yOffset+'%' }),
-      LeaderLine.pointAnchor(to, { x: '1%', y: position+'%' }),
-      {
+    LeaderLine.pointAnchor(from, { x: this.fromCenterX , y: this.fromCenterY  }),
+    LeaderLine.pointAnchor(to, { x: this.toCenterX , y: this.toCenterY  }),
+    {
+      // LeaderLine.pointAnchor(from, { x: '100%', y: yOffset+'%' }),
+      // LeaderLine.pointAnchor(to, { x: '1%', y: position+'%' }),
+      // {
         color: 'black',
         size: 2,
         startSocket: 'right',
@@ -1232,12 +1347,35 @@ editdropdownfrontend:any=[];
     );
   }
  
-  createArrow1(from, to, yOffset,position,position1) {
+  // this.fromCenterX1 = position; //136
+          // this.fromCenterY1 = position1 ;//104.75; //54/2=27
+          // this.toCenterX1 = yOffset ; //136-136+1
+          // this.toCenterY1 = position1; //54/2=27
+
+  createArrow1(from, to, position,yOffset,position1) {
     debugger
-   
+        const fromRect = from.getBoundingClientRect();
+        const toRect = to.getBoundingClientRect();
+
+        if (navigator.platform.includes("Win")) {
+      
+          this.fromCenterX1 = fromRect.width; //136
+          this.fromCenterY1 =  fromRect.height/2;//54/2=27
+          this.toCenterX1 = toRect.width-toRect.width+1 ; //1
+          this.toCenterY1 = toRect.height/2;//54/2=27
+
+        }else if (navigator.platform.includes("Linux")) {
+          this.fromCenterX1 = fromRect.width; //136
+          this.fromCenterY1 =  fromRect.height/2;//104.75; //54/2=27
+          this.toCenterX1 = toRect.width-toRect.width+1 ; //136-136+1
+          this.toCenterY1 = toRect.height/2;//54/2=27
+        }
+
+       
+    
     return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '214%', y: position1+'%' }),
-      LeaderLine.pointAnchor(to, { x: yOffset+'%', y: position1+'%' }),  
+      LeaderLine.pointAnchor(from, { x: this.fromCenterX1 , y: this.fromCenterY1  }),
+      LeaderLine.pointAnchor(to, { x: this.toCenterX1 , y: this.toCenterY1  }),
       {
         color: 'black',
         size: 2,
@@ -1248,53 +1386,35 @@ editdropdownfrontend:any=[];
         endPlugSize: 1.5,
         path: 'fluid',
         dash: { animation: true },
-        end:137
-        
+        end:137 
       }
-    );
-    
-  }
-  createArrow2(from, to, yOffset,position) {
-    debugger
-    return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '332%', y: '50%' }),
-      LeaderLine.pointAnchor(to, { x: position+'%', y: '50%' }),  //427 //606
-      {
-        color: 'black',
-        size: 2,
-        startSocket: this.createArrow3,
-        endSocket: 'left',
-        startPlug: 'disc',
-        endPlug: 'disc',
-        endPlugSize: 1.5,
-        path: 'fluid',
-        dash: { animation: true },
-       
-      }
-    );
+    ); 
   }
 
-  createArrow3(from, to, yOffset) {
-    debugger
-    return new LeaderLine(
-      LeaderLine.pointAnchor(from, { x: '446%', y: '50%' }),
-      LeaderLine.pointAnchor(to, { x: yOffset+'%', y: '50%' }),
-      {
-        color: 'black',
-        size: 2,
-        startSocket: 'right',
-        endSocket: 'left',
-        startPlug: 'disc',
-        endPlug: 'disc',
-        endPlugSize: 1.5,
-        path: 'fluid',
-        dash: { animation: true },
-      }
-    );
-  }
   
+  
+  removearrow(){
+    if(this.Frontend.length==1){
+      this.arrowLink2.remove();
+      this.arrowLink2 = null;
+    }else if(this.Frontend.length==2){
+      this.arrowLink2.remove();
+      this.arrowLink2 = null;
+      this.arrowLink3.remove();
+      this.arrowLink3 = null;
+    }else if(this.Frontend.length==3){
+      this.arrowLink2.remove();
+      this.arrowLink2 = null;
+      this.arrowLink3.remove();
+      this.arrowLink3 = null;
+      this.arrowLink4.remove();
+      this.arrowLink4 = null;
+    }
+  }
+
+
    updateArrows(data:any){
-   
+    debugger
     const table1 = document.getElementById("table1");
     const table2 = document.getElementById("table2");
     const table3 = document.getElementById("table3");
@@ -1314,27 +1434,52 @@ editdropdownfrontend:any=[];
       // this.arrowLink4;
       // this.arrowLink5;
       // this.arrowLink6;
-    
+
     //---------------solution to frontend---------------  
     if (this.Solution && this.arrowLink2 == undefined && data !='remove') { 
       for(let i=0;i<this.Frontend.length;i++){
+        // ---check machine os--
+        if(navigator.platform.includes("Linux")){
+          //--- check number of cards---
+          
+          // else{
+            if(this.Frontend.length<=2){
+              if(i==0){
+                this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),0,0); 
+              } else{
+                this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),0,0); 
+              }
+                  
+            }else{
+              if(i==0){
+                this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),0,0); 
+              } else if(i==1){
+                this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),0,0); 
+              }else{
+                this.arrowLink4 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),0,0); 
+              }
+            }    
+          // }
+        
+      }else{
         if(this.Frontend.length<=2){
           if(i==0){
-            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),50,50); 
+            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),78,178); 
           } else{
-            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),50,50); 
+            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),288,178); 
           }
               
         }else{
           if(i==0){
-            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+            this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),450,178); 
           } else if(i==1){
-            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+            this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),450,178); 
           }else{
-            this.arrowLink4 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+            this.arrowLink4 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),450,178); 
           }
            
-        }        
+        }    
+      }    
       }
     } 
     else if (this.arrowLink2 !=undefined && this.arrowLink3 && this.arrowLink4 && data=='remove') {
@@ -1362,60 +1507,118 @@ editdropdownfrontend:any=[];
     
     // ---------------frontend to next---------------
     if (this.Frontend && this.pipeline.length!=0 && !this.arrowLink5) {
+      debugger
       for(let i=0;i<this.pipeline.length;i++){
+        if(navigator.platform.includes("Linux")){
         if(this.pipeline.length<=2){
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),115,275,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows3[i+2].querySelector("td"),212,116,0);
           }else{
-            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),115,275,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows3[i+2].querySelector("td"),212,116,0);
           } 
         }else{
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,0);
           }else if(i==1){
-            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,0);
           } else{
-            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320,50);
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,0);
           } 
-        }       
+        }  
+      } else { 
+        //---------windows-----applied only for 2 lines
+        if(this.pipeline.length<=2){
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows3[i+2].querySelector("td"),435,240,103);
+          }else{
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows3[i+2].querySelector("td"),435,240,103);
+          } 
+        }else{
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,50);
+          }else if(i==1){
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,50);
+          } else{
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows3[i+2].querySelector("td"),250,320,50);
+          } 
+        }  
+
+      }   
       }   
     } else if(this.Frontend && this.Modules.length!=0 && !this.arrowLink5){
       for(let i=0;i<this.Modules.length;i++){
+        if(navigator.platform.includes("Linux")){
         if(this.Modules.length<=2){
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),231,275,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows4[i+2].querySelector("td"),213,231,0);
           }else{
-            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),231,275,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows4[i+2].querySelector("td"),232,275,0);
           }  
         }else{
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,0);
           }else if(i==1){
-            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,0);
           } else{
-            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),231,320,50);
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,0);
           }  
-        }       
+        }  
+      }else{
+        if(this.Modules.length<=2){
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows4[i+2].querySelector("td"),429,346,103);
+          }else{
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows4[i+2].querySelector("td"),429,346,103);
+          }  
+        }else{
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,50);
+          }else if(i==1){
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,50);
+          } else{
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows4[i+2].querySelector("td"),232,320,50);
+          }  
+        }  
+      }     
       }    
 
     }
     else if(this.Frontend.length!=0 && this.Dataset.length!=0 && !this.arrowLink5){
       for(let i=0;i<this.Dataset.length;i++){
+        if(navigator.platform.includes("Linux")){
         if(this.Dataset.length<=2){
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346,275,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows5[i+2].querySelector("td"),213,345,0);
           }else{
-            this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346,275,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows5[i+2].querySelector("td"),213,345,0);
           }  
         }else{
           if(i==0){
-            this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,0);
           }else if(i==1){
-            this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,0);
           } else{
-            this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320,50);
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,0);
           }  
-        }       
+        } 
+      }else{
+        // ---------windows------------------
+        if(this.Dataset.length<=2){
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows5[i+2].querySelector("td"),431,450,103);
+          }else{
+            this.arrowLink6 = this.createArrow1(this.rows2[2].querySelector("td"), this.rows5[i+2].querySelector("td"),431,450,103);
+          }  
+        }else{
+          if(i==0){
+            this.arrowLink5 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,50);
+          }else if(i==1){
+            this.arrowLink6 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,50);
+          } else{
+            this.arrowLink7 = this.createArrow1(this.rows2[3].querySelector("td"), this.rows5[i+2].querySelector("td"),590,320,50);
+          }  
+        } 
+      }      
       }    
     }
     else if (this.arrowLink5 && this.arrowLink6 && this.arrowLink7 && data== 'remove') {
@@ -1438,38 +1641,61 @@ editdropdownfrontend:any=[];
 // ---------------pipeline to next---------------
     if (this.pipeline.length!=0 && this.Modules!=0 && !this.arrowLink8) {
       for(let i=0;i<this.Modules.length;i++){
-        if(this.Modules.length<=2){
+        if(navigator.platform.includes("Linux")){
+        if(this.Modules.length<=3){
           if(i==0){
-            this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,232);
+            this.arrowLink8 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),328,230,0);
+          }else if(i==1){
+            this.arrowLink9 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),328,230,0);
           }else{
-            this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,232);
+            this.arrowLink10 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),328,230,0);
           }  
         }else{
           if(i==0){
-            this.arrowLink8 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+            this.arrowLink8 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,330,0);
           }else if(i==1){
-            this.arrowLink9 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,411);
+            this.arrowLink9 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,330,0);
           } else{
-            this.arrowLink10 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,411);
+            this.arrowLink10 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,330,0);
           } 
           
-        }       
+        }  
+      }else{
+        // -----------windows----------
+        if(this.Modules.length<=3){
+          if(i==0){
+            this.arrowLink8 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),255,165,273);
+          }else if(i==1){
+            this.arrowLink9 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),255,165,273);
+          }else{
+            this.arrowLink10 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows4[i+2].querySelector("td"),485,388,103);
+          }  
+        }else{
+          if(i==0){
+            this.arrowLink8 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,415,100);
+          }else if(i==1){
+            this.arrowLink9 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,411,100);
+          } else{
+            this.arrowLink10 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows4[i+2].querySelector("td"),200,411,100);
+          }   
+        }  
+      }     
       }  
     } else if(this.pipeline.length!=0 && this.Dataset!=0 && !this.arrowLink8){
       for(let i=0;i<this.Dataset.length;i++){
         if(this.Dataset.length<=2){
           if(i==0){
-            this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+            this.arrowLink8 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows5[i+2].querySelector("td"),200,606,50);
           }else{
-            this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+            this.arrowLink9 = this.createArrow1(this.rows3[2].querySelector("td"), this.rows5[i+2].querySelector("td"),200,606,50);
           }    
         }else{
           if(i==0){
-            this.arrowLink8 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+            this.arrowLink8 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows5[i+2].querySelector("td"),200,606,50);
           }else if(i==1){
-            this.arrowLink9 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+            this.arrowLink9 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows5[i+2].querySelector("td"),200,606,50);
           } else{
-            this.arrowLink10 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+            this.arrowLink10 = this.createArrow1(this.rows3[3].querySelector("td"), this.rows5[i+2].querySelector("td"),200,606,50);
           }   
         }       
       }  
@@ -1501,22 +1727,40 @@ editdropdownfrontend:any=[];
     debugger
     if (this.Modules.length!=0 && this.Dataset.length!=0 && !this.arrowLink11) {
       for(let i=0;i<this.Dataset.length;i++){
+        if(navigator.platform.includes("Linux")){
         if(this.Dataset.length<=2){
           if(i==0){
-            this.arrowLink11 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346);
+            this.arrowLink11 = this.createArrow1(this.rows4[2].querySelector("td"), this.rows5[i+2].querySelector("td"),442,345,0);
           }else{
-            this.arrowLink12 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),346);
+            this.arrowLink12 = this.createArrow1(this.rows4[2].querySelector("td"), this.rows5[i+2].querySelector("td"),442,345,0);
+          }  
+        }else{  
+          if(i==0){
+            this.arrowLink11 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),280,250,0);
+          }else if(i==1){
+            this.arrowLink12 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),280,250,0);
+          }else{
+            this.arrowLink13 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),280,250,0);
+          }
+        } 
+      }else{
+          // ---------windows----------------
+        if(this.Dataset.length<=2){
+          if(i==0){
+            this.arrowLink11 = this.createArrow1(this.rows4[2].querySelector("td"), this.rows5[i+2].querySelector("td"),305,214,280);
+          }else{
+            this.arrowLink12 = this.createArrow1(this.rows4[2].querySelector("td"), this.rows5[i+2].querySelector("td"),305,214,280);
           }  
         }else{
           if(i==0){
-            this.arrowLink11 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+            this.arrowLink11 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),0,345,0);
           }else if(i==1){
-            this.arrowLink12 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+            this.arrowLink12 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),0,345,0);
           }else{
-            this.arrowLink13 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+            this.arrowLink13 = this.createArrow1(this.rows4[3].querySelector("td"), this.rows5[i+2].querySelector("td"),0,345,0);
           }
-          
-        }       
+        } 
+      }      
       }  
     } 
     else if (this.arrowLink11 && this.arrowLink12 && this.arrowLink13 && data=='remove') {
@@ -1542,4 +1786,321 @@ editdropdownfrontend:any=[];
       this.arrowLink11 = null;
     }
   }
+
+
+
+//   createArrow(from, to, yOffset,position) {
+//     debugger
+//     return new LeaderLine(
+//       LeaderLine.pointAnchor(from, { x: '159%', y: '420%' }),
+//       LeaderLine.pointAnchor(to, { x: '69%', y: position+'%' }),
+//       {
+//         color: 'black',
+//         size: 2,
+//         startSocket: 'right',
+//         endSocket: 'left',
+//         startPlug: 'disc',     
+//         endPlug: 'disc',
+//         endPlugSize: 1.5,
+//         path: 'fluid',
+//         gradient: true,
+//         lineOffset:100,
+//         dash: { animation: true }, 
+//       }
+//     );
+//   }
+ 
+//   createArrow1(from, to, yOffset,position) {
+//     debugger
+   
+//     return new LeaderLine(
+//       LeaderLine.pointAnchor(from, { x: '333%', y: position+'%' }),
+//       LeaderLine.pointAnchor(to, { x: yOffset+'%', y: position+'%' }),  
+//       {
+//         color: 'black',
+//         size: 2,
+//         startSocket: 'right',
+//         endSocket: 'left',
+//         startPlug: 'disc',
+//         endPlug: 'disc',
+//         endPlugSize: 1.5,
+//         path: 'grid',
+//         dash: { animation: true },
+//         end:137
+        
+//       }
+//     );
+    
+//   }
+//   createArrow2(from, to, yOffset,position) {
+//     debugger
+//     return new LeaderLine(
+//       LeaderLine.pointAnchor(from, { x: '507%', y: '275%' }),
+//       LeaderLine.pointAnchor(to, { x: position+'%', y: '275%' }),  //427 //606
+//       {
+//         color: 'black',
+//         size: 2,
+//         startSocket: this.createArrow1,
+//         endSocket: 'left',
+//         startPlug: 'disc',
+//         endPlug: 'disc',
+//         endPlugSize: 1.5,
+//         path: 'fluid',
+//         dash: { animation: true },
+       
+//       }
+//     );
+//   }
+
+//   createArrow3(from, to, yOffset) {
+//     debugger
+//     return new LeaderLine(
+//       LeaderLine.pointAnchor(from, { x: '680%', y: '275%' }),
+//       LeaderLine.pointAnchor(to, { x: '590%', y: '275%' }),
+//       {
+//         color: 'black',
+//         size: 2,
+//         startSocket: 'right',
+//         endSocket: 'left',
+//         startPlug: 'disc',
+//         endPlug: 'disc',
+//         endPlugSize: 1.5,
+//         path: 'grid',
+//         dash: { animation: true },
+//       }
+//     );
+//   }
+  
+//    updateArrows(data:any){
+   
+//     const table1 = document.getElementById("table1");
+//     const table2 = document.getElementById("table2");
+//     const table3 = document.getElementById("table3");
+//     const table4 = document.getElementById("table4");
+//     const table5 = document.getElementById("table5");
+//     const element2 = document.getElementById("element2") as HTMLInputElement;
+
+//       this.rows1 = table1.querySelectorAll("tr");
+//       this.rows2 = table2.querySelectorAll("tr");
+//       this.rows3 = table3.querySelectorAll("tr");
+//       this.rows4 = table4.querySelectorAll("tr");
+//       this.rows5 = table5.querySelectorAll("tr");
+
+    
+//       // this.arrowLink2;
+//       // this.arrowLink3;
+//       // this.arrowLink4;
+//       // this.arrowLink5;
+//       // this.arrowLink6;
+    
+//     //---------------solution to frontend---------------  
+//     if (this.Solution && this.arrowLink2 == undefined && data !='remove') { 
+//       for(let i=0;i<this.Frontend.length;i++){
+//         if(this.Frontend.length<=2){
+//           if(i==0){
+//             this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,275); 
+//           } else{
+//             this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,275); 
+//           }
+              
+//         }else{
+//           if(i==0){
+//             this.arrowLink2 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+//           } else if(i==1){
+//             this.arrowLink3 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+//           }else{
+//             this.arrowLink4 = this.createArrow(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250,320); 
+//           }
+           
+//         }        
+//       }
+//     } 
+//     else if (this.arrowLink2 !=undefined && this.arrowLink3 && this.arrowLink4 && data=='remove') {
+      
+//           this.arrowLink2.remove();
+//            this.arrowLink2 = null;
+       
+//           this.arrowLink3.remove();
+//           this.arrowLink3 = null;
+        
+//           this.arrowLink4.remove();
+//           this.arrowLink4 = null;
+       
+//     }else if(this.arrowLink2 !=undefined && this.arrowLink3  && data=='remove'){
+//       this.arrowLink2.remove();
+//            this.arrowLink2 = null;
+       
+//           this.arrowLink3.remove();
+//           this.arrowLink3 = null;
+//     }else if(this.arrowLink2 !=undefined  && data=='remove'){
+//       this.arrowLink2.remove();
+//            this.arrowLink2 = null;
+   
+//     }
+    
+//     // ---------------frontend to next---------------
+//     if (this.Frontend && this.pipeline.length!=0 && !this.arrowLink5) {
+//       for(let i=0;i<this.pipeline.length;i++){
+//         if(this.pipeline.length<=2){
+//           if(i==0){
+//             this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),242,275);
+//           }else{
+//             this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),242,275);
+//           } 
+//         }else{
+//           if(i==0){
+//             this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+//           }else if(i==1){
+//             this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+//           } else{
+//             this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),249,320);
+//           } 
+//         }       
+//       }   
+//     } else if(this.Frontend && this.Modules.length!=0 && !this.arrowLink5){
+
+//     }
+//     else if(this.Frontend.length!=0 && this.Dataset.length!=0 && !this.arrowLink5){
+//       for(let i=0;i<this.Dataset.length;i++){
+//         if(this.Dataset.length<=2){
+//           if(i==0){
+//             this.arrowLink5 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),590,275);
+//           }else{
+//             this.arrowLink6 = this.createArrow1(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),590,275);
+//           }  
+//         }else{
+//           if(i==0){
+//             this.arrowLink5 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+//           }else if(i==1){
+//             this.arrowLink6 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+//           } else{
+//             this.arrowLink7 = this.createArrow1(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),590,320);
+//           }  
+//         }       
+//       }    
+//     }
+//     else if (this.arrowLink5 && this.arrowLink6 && this.arrowLink7 && data== 'remove') {
+//       this.arrowLink5.remove();
+//           this.arrowLink5 = null;
+//       this.arrowLink6.remove();
+//           this.arrowLink6 = null;
+//       this.arrowLink7.remove();
+//           this.arrowLink7 = null;
+//     }else if(this.arrowLink5 && this.arrowLink6 && data== 'remove'){
+//       this.arrowLink5.remove();
+//       this.arrowLink5 = null;
+//       this.arrowLink6.remove();
+//       this.arrowLink6 = null;
+//     }else if(this.arrowLink5 && data== 'remove'){
+//       this.arrowLink5.remove();
+//       this.arrowLink5 = null;
+//     }
+
+// // ---------------pipeline to next---------------
+//     if (this.pipeline.length!=0 && this.Modules!=0 && !this.arrowLink8) {
+//       for(let i=0;i<this.Modules.length;i++){
+//         if(this.Modules.length<=2){
+//           if(i==0){
+//             this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+//           }else{
+//             this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+//           }  
+//         }else{
+//           if(i==0){
+//             this.arrowLink8 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,415);
+//           }else if(i==1){
+//             this.arrowLink9 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,411);
+//           } else{
+//             this.arrowLink10 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,411);
+//           } 
+          
+//         }       
+//       }  
+//     } else if(this.pipeline.length!=0 && this.Dataset!=0 && !this.arrowLink8){
+//       for(let i=0;i<this.Dataset.length;i++){
+//         if(this.Dataset.length<=2){
+//           if(i==0){
+//             this.arrowLink8 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+//           }else{
+//             this.arrowLink9 = this.createArrow2(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+//           }    
+//         }else{
+//           if(i==0){
+//             this.arrowLink8 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+//           }else if(i==1){
+//             this.arrowLink9 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+//           } else{
+//             this.arrowLink10 = this.createArrow2(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),200,606);
+//           }   
+//         }       
+//       }  
+//     }
+//     else if ( this.arrowLink8 && this.arrowLink9 && this.arrowLink10 && data== 'remove') {
+      
+//           this.arrowLink8.remove();
+//       this.arrowLink8 = null;
+        
+//           this.arrowLink9.remove();
+//       this.arrowLink9 = null;
+        
+//           this.arrowLink10.remove();
+//       this.arrowLink10 = null;
+        
+     
+//     }else if(this.arrowLink8 && this.arrowLink9 &&  data== 'remove'){
+//       this.arrowLink8.remove();
+//       this.arrowLink8 = null;
+        
+//           this.arrowLink9.remove();
+//       this.arrowLink9 = null;
+//     }else if(this.arrowLink8 &&  data== 'remove'){
+//       this.arrowLink8.remove();
+//       this.arrowLink8 = null;
+//     }
+
+//     // ---------------Modules to Dataset---------------
+//     debugger
+//     if (this.Modules.length!=0 && this.Dataset.length!=0 && !this.arrowLink11) {
+//       for(let i=0;i<this.Dataset.length;i++){
+//         if(this.Dataset.length<=2){
+//           if(i==0){
+//             this.arrowLink11 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+//           }else{
+//             this.arrowLink12 = this.createArrow3(this.rows1[2].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+//           }  
+//         }else{
+//           if(i==0){
+//             this.arrowLink11 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+//           }else if(i==1){
+//             this.arrowLink12 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+//           }else{
+//             this.arrowLink13 = this.createArrow3(this.rows1[3].querySelector("td"), this.rows2[i+2].querySelector("td"),250);
+//           }
+          
+//         }       
+//       }  
+//     } 
+//     else if (this.arrowLink11 && this.arrowLink12 && this.arrowLink13 && data=='remove') {
+     
+//           this.arrowLink11.remove();
+//       this.arrowLink11 = null;
+       
+//           this.arrowLink12.remove();
+//           this.arrowLink12 = null;
+       
+//           this.arrowLink13.remove();
+//       this.arrowLink13 = null;
+       
+      
+//     }else if(this.arrowLink11 && this.arrowLink12  && data=='remove'){
+//       this.arrowLink11.remove();
+//       this.arrowLink11 = null;
+       
+//           this.arrowLink12.remove();
+//           this.arrowLink12 = null;
+//     }else if(this.arrowLink11  && data=='remove'){
+//       this.arrowLink11.remove();
+//       this.arrowLink11 = null;
+//     }
+//   }
 }
