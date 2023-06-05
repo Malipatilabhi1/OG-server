@@ -25,9 +25,6 @@ declare var LeaderLine: any;
 })
 export class PortalComponent implements OnInit {  
  
-  // @ViewChild('panel1', { static: true }) panel1: ElementRef;
-
-  // readonly ICONS = ICONS;
   isPanelOpen = false;
   dataSetId: any;
   abc: any;
@@ -87,7 +84,7 @@ export class PortalComponent implements OnInit {
   ngOnInit(): void {
     // this.fetchData();
     this.getModel();
-    
+   
     this.getdataset();
     this.getPipeline();
     this.getFrontend();
@@ -98,7 +95,7 @@ export class PortalComponent implements OnInit {
   //  this.callCarddata();
   //  this.callCardpipeline();
  //--------------------------------------------------------------------------------------------------------------------------------
-
+debugger
  
   }
 
@@ -116,14 +113,14 @@ sectionData(){
 
   groupedData:any;
   sections:any=[];
-  Test_model:any=[
-    {id:1,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
-    {id:2,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
-    {id:3,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
-    {id:4,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
-    {id:5,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"} ,
-    {id:6,modelDescription:"Model test desc",modelName:"Model Test Finance",domain:"Finance"}  
-  ]
+  // Test_model:any=[
+  //   {id:1,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
+  //   {id:2,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
+  //   {id:3,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"},
+  //   {id:4,modelDescription:"Model test desc",modelName:"Model Test Retail",domain:"Retail"},
+  //   {id:5,modelDescription:"Model test desc",modelName:"Model Test Healthcare",domain:"Healthcare"} ,
+  //   {id:6,modelDescription:"Model test desc",modelName:"Model Test Finance",domain:"Finance"}  
+  // ]
 
   idx:any;
   onPanelOpened(data:any,state:any) {
@@ -149,6 +146,7 @@ sectionData(){
     }
   }
 
+ // 3.111.229.37
   // callCarddata(){
   //   this.http.get("http://3.111.229.37:3000/clearml/dataset").subscribe(response => { 
     
@@ -159,12 +157,6 @@ sectionData(){
     
     // })
   }
-
-
-
-
-
-
 
   arrowLink2:any;
   arrowLink3:any;
@@ -185,8 +177,8 @@ sectionData(){
   rows4:any;
   rows5:any;
   searchResponse:any;
-  filterSolution() {
-    
+
+  filterSolution() { 
     let search = this.Searchvalue4;
     let table =  "Solutions"; 
     let col1=  "solutionName";
@@ -259,9 +251,7 @@ sectionData(){
 
 
   refresh(){
-    debugger
     // this.updateArrows('remove')
-    
     this.getModel();
     this.getSolution();
     this.getdataset();
@@ -417,7 +407,8 @@ sectionData(){
     id: [,Validators.required],
     version: [,Validators.required],
     desc: [,Validators.required],
-    url: [,Validators.required]
+    url: [,Validators.required],
+    dataset_tag:[,Validators.required]
   })
   formdata4 = this.formBuilder.group({
     name: [],
@@ -426,6 +417,7 @@ sectionData(){
     id: [],
     url:[],
     main_id:[],
+    dataset_tag:[]
    
   })
   formdata1 = this.formBuilder.group({
@@ -439,7 +431,8 @@ sectionData(){
     project_name: ['', Validators.required],
     view_url: ['', Validators.required],
     run_url: ['', Validators.required],
-    model_tags:['', Validators.required],
+    model_tags:[''],
+    separator:['', Validators.required],
     desc:['', Validators.required],
   })
   formdata6 = this.formBuilder.group({
@@ -448,7 +441,8 @@ sectionData(){
     desc:[],
     view_url:[],
     run_url:[],
-    modelTags:[]
+    modelTags:[],
+    modelseparator:[]
   })
 
 
@@ -498,8 +492,9 @@ sectionData(){
     let modelViewUrl = this.formdata2.controls['view_url'].value;
     let modelRunUrl = this.formdata2.controls['run_url'].value;
     let modelTags = this.formdata2.controls['model_tags'].value;
+    let modelSeperator=this.formdata2.controls['separator'].value;
     let modelDescription = this.formdata2.controls['desc'].value;
-    this.http.post('http://3.111.229.37:3000/model/insertModel', { modelName, modelViewUrl, modelRunUrl, modelTags, modelDescription })
+    this.http.post('http://3.111.229.37:3000/model/insertModel', { modelName, modelViewUrl, modelRunUrl, modelTags,modelSeperator, modelDescription })
       .subscribe(response => {
         this.formdata2.reset();
         console.log(response);
@@ -521,7 +516,8 @@ sectionData(){
     let modelDescription = this.formdata6.controls['desc'].value;
     let modelRunUrl = this.formdata6.controls['run_url'].value;
     let modelViewUrl = this.formdata6.controls['view_url'].value;
-    this.http.post('http://3.111.229.37:3000/model/editModel', { modelName, modelTags, modelId, modelDescription, modelRunUrl, modelViewUrl })
+    let modelSeperator=this.formdata6.controls['modelseparator'].value;
+    this.http.post('http://3.111.229.37:3000/model/editModel', { modelName, modelTags, modelId, modelDescription, modelRunUrl, modelViewUrl,modelSeperator })
       .subscribe(response => {
         console.log("res", response);
         this.storeResponse = response;
@@ -556,6 +552,8 @@ sectionData(){
         this.dumbb = response;
         this.Modules = this.dumbb.data;
         console.log(this.Modules);
+        this.groupedData=[];
+        this.sections=[];
         this.sectionData();
       }
       )
@@ -568,7 +566,9 @@ sectionData(){
     let datasetVersion = this.formdata.controls['version'].value;
     let datasetDescription = this.formdata.controls['desc'].value;
     let datasetUrl = this.formdata.controls['url'].value;
-    this.http.post('http://3.111.229.37:3000/data/insertData', {datasetUrl, datasetName, datasetId, datasetVersion, datasetDescription })
+    let datasetTags=this.formdata.controls['dataset_tag'].value;
+    let datasetType='';
+    this.http.post('http://3.111.229.37:3000/data/insertData', {datasetUrl, datasetName, datasetId, datasetVersion,datasetTags,datasetType, datasetDescription })
       .subscribe(response => {
         debugger
         this.formdata.reset();
@@ -589,14 +589,17 @@ sectionData(){
     let datasetVersion = this.formdata4.controls['version'].value;
     let datasetDescription = this.formdata4.controls['desc'].value;
     let datasetUrl = this.formdata4.controls['url'].value;
+    let datasetTags=this.formdata4.controls['dataset_tag'].value;
+    let datasetType='';
     let datasetId =this.formdata4.controls['id'].value.toString(); //unique dataset Id 
     let id = this.formdata4.controls['main_id'].value.toString(); // unique primery key generated by DB
     
    
 
-    console.log("datasetId", datasetName, datasetId, datasetVersion, datasetDescription)
-    this.http.post('http://3.111.229.37:3000/data/editDataset', { datasetName, datasetId, datasetVersion, datasetDescription, datasetUrl })
+    // console.log("datasetId", datasetName, datasetId, datasetVersion, datasetDescription)
+    this.http.post('http://3.111.229.37:3000/data/editDataset', { datasetName, datasetId, datasetVersion, datasetDescription,datasetTags,datasetType, datasetUrl })
       .subscribe(response => {
+        debugger
         console.log(response)
         this.storeResponse = response;
         this.toastr.warning(this.storeResponse.message);
@@ -624,7 +627,6 @@ sectionData(){
   getdataset() {
     this.http.post('http://3.111.229.37:3000/data/retrieveDatasets', {})
       .subscribe(response => {
-        debugger
         this.dumbb1 = response;
         this.Dataset = this.dumbb1.data;
         console.log("abc", this.Dataset);
@@ -777,7 +779,8 @@ deleteFrontend(){
     this.formdata4.controls['version'].setValue(data.datasetVersion);
     this.formdata4.controls['desc'].setValue(data.datasetDescription);
     this.formdata4.controls['url'].setValue(data.datasetUrl);
-    this.formdata4.controls['id'].setValue(data.datasetId)
+    this.formdata4.controls['id'].setValue(data.datasetId);
+    this.formdata4.controls['dataset_tag'].setValue(data.datasetTags);
     this.formdata4.controls['id'].disable();
   }
   getDataModel(data: any) {
@@ -788,6 +791,7 @@ deleteFrontend(){
     this.formdata6.controls['run_url'].setValue(data.modelRunUrl);
     this.formdata6.controls['view_url'].setValue(data.modelViewUrl);
     this.formdata6.controls['modelTags'].setValue(data.modelTags);
+    this.formdata6.controls['modelseparator'].setValue(data.modelSeperator);
   }
   
   selectedValues:any;
@@ -1211,6 +1215,7 @@ editdropdownmodel:any=[];
 editdropdownpipeline:any=[];
 editdropdownfrontend:any=[];
 
+//On Type text change to Uppercase
 onInputChange(key:string,value:string){
   if(key=='solution'){
     const inputControl = this.formdata3.get(value);
@@ -1236,21 +1241,23 @@ onInputChange(key:string,value:string){
   }else if(key=='edit-solution'){
     const inputControl = this.formdata7.get(value);
     inputControl.setValue(inputControl.value.toUpperCase(), { emitEvent: false });
-  }
-  
+  } 
 }
-
-  empty(){
+ empty(){
     this.pipeline=[];
     this.Dataset=[];
     this.Solution=[];
     this.Modules=[];
     this.Frontend=[];
+    this.groupedData=[];
+    this.sections=[];
   }
+
   linkagedata:any=[];
   dummy6:any=[];
   dummy5:any;
   link:boolean=false;
+
   linkCheck(){
     this.link= !this.link;
   }
@@ -1269,6 +1276,7 @@ onInputChange(key:string,value:string){
           this.Solution=this.linkagedata.solutions;
           this.isPanelOpen=true;
           this.Modules=this.linkagedata.models;
+          this.sectionData();
           this.pipeline=this.linkagedata.pipelines;
           this.Dataset=this.linkagedata.datasets;
           this.Frontend=this.linkagedata.frontends;
@@ -2103,4 +2111,5 @@ onInputChange(key:string,value:string){
 //       this.arrowLink11 = null;
 //     }
 //   }
+
 }
