@@ -432,7 +432,7 @@ sectionData(){
     view_url: ['', Validators.required],
     run_url: ['', Validators.required],
     model_tags:[''],
-    separator:['', Validators.required],
+    separator:['',],
     desc:['', Validators.required],
   })
   formdata6 = this.formBuilder.group({
