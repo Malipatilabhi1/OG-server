@@ -468,7 +468,7 @@
 
                   <div class="d-flex flex-row pt-2 px-1">
                     <div>
-                      <div class="chip-container" >
+                      <div class="chip-container" *ngIf="tagexist">
                         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal"> 
                         <mat-chip *ngFor="let tag of data.datasetTags.split(',')" class="example-box" cdkDrag> {{tag.trim()}}</mat-chip> 
                         </mat-chip-list>
@@ -1297,9 +1297,6 @@
               </ul>
               <br>
             </div>
-
-
-
 
             <!-- <div class="text-right">
         <button class="btn-close" style="font-size:15px;float:right !important;" data-dismiss="modal" aria-label="Close">Close</button>
