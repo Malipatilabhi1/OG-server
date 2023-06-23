@@ -55,8 +55,8 @@
               
             ],
             "allowedCommonJsDependencies": [
-              
               "lodash",
+              "rxjs-compat",
               "ansi-to-html",
               "has-ansi",
               "fabric/dist/fabric.min",

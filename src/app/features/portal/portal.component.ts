@@ -59,11 +59,6 @@ export class PortalComponent implements OnInit {
   selectedIndex: number = 0;
   filled: boolean = false;
   selected:boolean=false;
-  // tags:tags[]=[{name:'tag1'},{name:'tag2'}];
-  // drop(event: CdkDragDrop<tags[]>) {
-  //   moveItemInArray(this.tags, event.previousIndex, event.currentIndex);
-  // }
-
   innerHeight: any;
     innerWidth: any;
 
@@ -88,12 +83,7 @@ export class PortalComponent implements OnInit {
     this.getPipeline();
     this.getFrontend();
     this.getSolution();
-    if(this.Dataset.datasetTags.length>0){
-      this.tagexist=true;
-    }
-    // if(this.Modules.modelSeperator.length>0){
-    //   this.sepexist=true;
-    // }
+    
 
    this.isPanelOpen;
   //  this.callCarddata();
@@ -102,8 +92,7 @@ export class PortalComponent implements OnInit {
   
   
 }
-tagexist:boolean=false;
-// sepexist:boolean=false;
+
 sectionData(){
     this.groupedData = {};
     this.Modules.forEach((item) => {
@@ -115,6 +104,13 @@ sectionData(){
   });
     this.sections = Object.keys(this.groupedData);
 }
+// ngAfterViewInit() {
+//   this.panel.openedChange.subscribe((opened: boolean) => {
+//     this.isExpanded = opened;
+//   });
+// }
+
+
 
   groupedData:any;
   sections:any=[];
@@ -129,25 +125,26 @@ sectionData(){
 
   // ----------------For on open panel lines position handle---------------------
 
-  // idx:any;
   // onPanelOpened(data:any,state:any) {
     
   //   if(state=='opened'){
   //     this.panelOpenState=true;
+  //     
   //   }else{
   //     this.panelOpenState=false;
+  //     
   //   }
-   
-  //   if(this.link){
-  //     if(data.frontendName){
-  //       this.idx=this.Frontend.indexOf(data);
-  //     }else if(data.pipelineName){
-  //       this.idx=this.pipeline.indexOf(data);
-  //     }else if(data.modelName){
-  //       this.idx=this.Modules.indexOf(data);
-  //     }else if(data.datasetName){
-  //       this.idx=this.Dataset.indexOf(data);
-  //     }
+  // }
+    // if(this.link){
+    //   if(data.frontendName){
+    //     this.idx=this.Frontend.indexOf(data);
+    //   }else if(data.pipelineName){
+    //     this.idx=this.pipeline.indexOf(data);
+    //   }else if(data.modelName){
+    //     this.idx=this.Modules.indexOf(data);
+    //   }else if(data.datasetName){
+    //     this.idx=this.Dataset.indexOf(data);
+    //   }
       
   //     this.updateArrows(data);
   //   }
@@ -1293,6 +1290,7 @@ onInputChange(key:string,value:string){
       this.linkagedata=response;
       this.empty();  
       console.log(this.linkagedata);
+      debugger
       this.linkCheck();
       this.selected=true;
       
@@ -2120,5 +2118,6 @@ onInputChange(key:string,value:string){
 //       this.arrowLink11 = null;
 //     }
 //   }
+
 
 }
