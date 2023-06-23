@@ -483,7 +483,7 @@ sectionData(){
   formdata9=this.formBuilder.group({
     frontend_name:['', Validators.required],
     frontendStyle_url:['', Validators.required],
-    frontendRun_url:['', Validators.required],
+    frontendRun_url:[],
     frontend_description:['', Validators.required],
     id:[]
   })
@@ -712,7 +712,7 @@ sectionData(){
    debugger
     let frontendName=this.formdata9.controls['frontend_name'].value;
     let frontendStylesUrl=this.formdata9.controls['frontendStyle_url'].value;
-    let frontendRunUrl=this.formdata9.controls['frontendRun_url'].value;
+    let frontendRunUrl='';
     let frontendDescription=this.formdata9.controls['frontend_description'].value;
 
     this.http.post('http://3.111.229.37:3000/frontend/insertFrontend', {
