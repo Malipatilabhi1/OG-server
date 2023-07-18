@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const targets = [
-  'http://3.111.229.37:8008/',               // 1
+  'http://3.111.229.37/:8008',               // 1
 ];
 
 const PROXY_CONFIG = {
